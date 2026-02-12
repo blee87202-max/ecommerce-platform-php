@@ -1,0 +1,59 @@
+{foreach from=$products item=prod}
+<article class="product-card-v2" data-id="{$prod.id}" data-stock="{$prod.stock|default:0}" data-aos="fade-up">
+    <div class="product-image-v2">
+        <div class="product-badges">
+            {if $prod.is_new}<span class="badge-v2 badge-new"><i class="fas fa-star"></i> جديد</span>{/if}
+            {if $prod.discount > 0}<span class="badge-v2 badge-discount">-{$prod.discount}%</span>{/if}
+            {if $prod.stock <= 0}<span class="badge-v2 badge-out"><i class="fas fa-ban"></i> نفذ</span>{/if}
+        </div>
+        <img src="../Controller/image.php?src={$prod.image|urlencode}&w=400&h=400&q=90" 
+             alt="{$prod.name|escape:'html'}" 
+             loading="lazy"
+             onerror="this.src='../Assets/images/default-product.png'" />
+        <div class="product-actions-v2">
+            <button class="btn-action-v2 add-cart" data-id="{$prod.id}" title="أضف للسلة">
+                <i class="fas fa-shopping-cart"></i>
+            </button>
+            <button class="btn-action-v2 toggle-wishlist {if $prod.in_wishlist}active{/if}" 
+                    data-id="{$prod.id}" title="{if $prod.in_wishlist}إزالة من المفضلة{else}أضف للمفضلة{/if}">
+                <i class="fas fa-heart"></i>
+            </button>
+            <button class="btn-action-v2 quick-view" data-id="{$prod.id}" title="عرض سريع">
+                <i class="fas fa-eye"></i>
+            </button>
+        </div>
+    </div>
+    <div class="product-info-v2">
+        <h3 class="product-title-v2">
+            <a href="../Controller/product.php?id={$prod.id}">{$prod.name|escape:'html'}</a>
+        </h3>
+        <div class="product-price-v2">
+            <span class="current-price">{$prod.price|number_format:2} ج.م</span>
+            {if $prod.old_price > $prod.price}
+                <span class="old-price">{$prod.old_price|number_format:2} ج.م</span>
+            {/if}
+        </div>
+        {if $prod.stock > 0 && $prod.stock <= 3}
+        <div class="product-stock-info low-stock">باقي {$prod.stock} فقط!</div>
+        {elseif $prod.stock > 3}
+        <div class="product-stock-info in-stock">متوفر في المخزون</div>
+        {/if}
+        {if $prod.rating > 0}
+        <div class="product-rating-v2">
+            <div class="stars">
+                {for $i=1 to 5}
+                    {if $i <= $prod.rating}
+                        <i class="fas fa-star"></i>
+                    {elseif $i == ceil($prod.rating) && ($prod.rating - floor($prod.rating)) >= 0.5}
+                        <i class="fas fa-star-half-alt"></i>
+                    {else}
+                        <i class="far fa-star"></i>
+                    {/if}
+                {/for}
+            </div>
+            <span class="rating-count">({$prod.rating_count})</span>
+        </div>
+        {/if}
+    </div>
+</article>
+{/foreach}

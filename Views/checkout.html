@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💳 إتمام الشراء</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap">
+    <link rel="stylesheet" href="../Assets/css/checkout.css">
+</head>
+<body>
+    <!-- Container -->
+    <div class="checkout-wrapper">
+        <!-- Header -->
+        <header class="checkout-header">
+            <h1>💳 إتمام الطلب</h1>
+            <div class="user-info" id="user-info">
+                <!-- سيتم تعبئته بواسطة JavaScript -->
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="checkout-main">
+            <!-- Loading State -->
+            <div class="loading-section" id="loading-section">
+                <div class="spinner-container">
+                    <div class="spinner"></div>
+                    <p>جاري تحميل بيانات الطلب...</p>
+                </div>
+            </div>
+
+            <!-- Error State -->
+            <div class="error-section" id="error-section" style="display: none;">
+                <div class="error-content">
+                    <span class="error-icon">⚠️</span>
+                    <h3>حدث خطأ</h3>
+                    <p id="error-message"></p>
+                    <button class="retry-btn" onclick="CheckoutUI.retryLoading()">إعادة المحاولة</button>
+                </div>
+            </div>
+
+            <!-- Checkout Form -->
+            <div class="checkout-content" id="checkout-content" style="display: none;">
+                <!-- Customer Information -->
+                <section class="customer-info-section">
+                    <h2>معلومات العميل</h2>
+                    <form id="checkout-form">
+                        <div class="form-group">
+                            <label for="customer-name">الاسم الكامل:</label>
+                            <input type="text" id="customer-name" name="customer_name" required>
+                            <div class="error-message" id="name-error"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="phone">رقم الهاتف:</label>
+                            <input type="tel" id="phone" name="phone" required>
+                            <div class="error-message" id="phone-error"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="address">العنوان:</label>
+                            <textarea id="address" name="address" rows="3" required></textarea>
+                            <div class="error-message" id="address-error"></div>
+                        </div>
+                    </form>
+                </section>
+
+                <!-- Order Summary -->
+                <section class="order-summary-section">
+                    <h2>ملخص الطلب</h2>
+                    <div class="order-items" id="order-items">
+                        <!-- سيتم تعبئته بواسطة JavaScript -->
+                    </div>
+                    <div class="order-totals">
+                        <div class="total-row">
+                            <span>المجموع الجزئي:</span>
+                            <span id="subtotal">0.00 ج.م</span>
+                        </div>
+                        <div class="total-row">
+                            <span>التوصيل:</span>
+                            <span id="shipping">0.00 ج.م</span>
+                        </div>
+                        <div class="total-row grand-total">
+                            <span>الإجمالي الكلي:</span>
+                            <span id="grand-total">0.00 ج.م</span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Payment Methods -->
+                <section class="payment-methods-section">
+                    <h2>طرق الدفع</h2>
+                    <div class="payment-methods">
+                        <div class="payment-option">
+                            <input type="radio" id="payment-card" name="payment_method" value="card" checked>
+                            <label for="payment-card">
+                                <span class="payment-icon">💳</span>
+                                <span class="payment-text">بطاقة ائتمان</span>
+                                <span class="payment-desc">فيزا / ماستركارد</span>
+                            </label>
+                        </div>
+
+                        <div class="payment-option">
+                            <input type="radio" id="payment-paypal" name="payment_method" value="paypal">
+                            <label for="payment-paypal">
+                                <span class="payment-icon">💰</span>
+                                <span class="payment-text">PayPal</span>
+                                <span class="payment-desc">دفع آمن عبر PayPal</span>
+                            </label>
+                        </div>
+
+                        <div class="payment-option">
+                            <input type="radio" id="payment-wallet" name="payment_method" value="wallet">
+                            <label for="payment-wallet">
+                                <span class="payment-icon">📱</span>
+                                <span class="payment-text">محفظة إلكترونية</span>
+                                <span class="payment-desc">دفع عبر المحفظة</span>
+                            </label>
+                        </div>
+
+                        <div class="payment-option">
+                            <input type="radio" id="payment-cod" name="payment_method" value="cod">
+                            <label for="payment-cod">
+                                <span class="payment-icon">📦</span>
+                                <span class="payment-text">الدفع عند الاستلام</span>
+                                <span class="payment-desc">(COD)</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Wallet Provider Selection -->
+                    <div class="wallet-providers" id="wallet-providers" style="display: none;">
+                        <h3>اختر مزود المحفظة:</h3>
+                        <div class="provider-options">
+                            <div class="provider-option">
+                                <input type="radio" id="provider-vodafone" name="wallet_provider" value="vodafone_cash">
+                                <label for="provider-vodafone">
+                                    <span class="provider-icon">🔵</span>
+                                    Vodafone Cash
+                                </label>
+                            </div>
+                            <div class="provider-option">
+                                <input type="radio" id="provider-orange" name="wallet_provider" value="orange_money">
+                                <label for="provider-orange">
+                                    <span class="provider-icon">🟠</span>
+                                    Orange Money
+                                </label>
+                            </div>
+                            <div class="provider-option">
+                                <input type="radio" id="provider-etisalat" name="wallet_provider" value="etisalat_cash">
+                                <label for="provider-etisalat">
+                                    <span class="provider-icon">🟣</span>
+                                    Etisalat Cash
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Actions -->
+                <div class="checkout-actions">
+                    <button type="button" class="continue-shopping-btn" onclick="window.location.href='Home.php'">
+                        🛍️ متابعة التسوق
+                    </button>
+                    <button type="button" class="confirm-order-btn" id="confirm-order-btn" disabled>
+                        💳 تأكيد الطلب
+                    </button>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="checkout-footer">
+            <p>🔒 عملية دفع آمنة ومشفرة</p>
+            <p class="help-text">للاستفسارات: <a href="tel:0123456789">0123456789</a></p>
+        </footer>
+    </div>
+
+    <!-- Credit Card Modal -->
+    <div class="modal-overlay" id="credit-card-modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>💳 تفاصيل بطاقة الائتمان</h3>
+                <button class="modal-close" onclick="CheckoutUI.hideCreditCardModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <form id="credit-card-form">
+                    <div class="form-group">
+                        <label for="card-number">رقم البطاقة:</label>
+                        <div class="card-input-wrapper">
+                            <input type="text" id="card-number" name="card_number" 
+                                   placeholder="1234 5678 9012 3456" maxlength="19"
+                                   oninput="CheckoutUI.formatCardNumber(this)">
+                            <span class="card-icon" id="card-type-icon">💳</span>
+                        </div>
+                        <div class="error-message" id="card-number-error"></div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="card-expiry">تاريخ الانتهاء:</label>
+                            <input type="text" id="card-expiry" name="card_expiry" 
+                                   placeholder="MM/YY" maxlength="5"
+                                   oninput="CheckoutUI.formatExpiryDate(this)">
+                            <div class="error-message" id="card-expiry-error"></div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="card-cvv">CVV:</label>
+                            <div class="cvv-wrapper">
+                                <input type="password" id="card-cvv" name="card_cvv" 
+                                       placeholder="123" maxlength="4">
+                                <button type="button" class="show-cvv-btn" 
+                                        onclick="CheckoutUI.toggleCVVVisibility()">👁️</button>
+                            </div>
+                            <div class="error-message" id="card-cvv-error"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="cardholder-name">اسم حامل البطاقة:</label>
+                        <input type="text" id="cardholder-name" name="cardholder_name"
+                               placeholder="كما هو مكتوب على البطاقة">
+                        <div class="error-message" id="cardholder-name-error"></div>
+                    </div>
+                    
+                    <div class="card-security-info">
+                        <p>🔒 معلوماتك محمية ومشفرة. نحن لا نخزن تفاصيل بطاقتك.</p>
+                    </div>
+                    
+                    <div class="modal-actions">
+                        <button type="button" class="cancel-btn" 
+                                onclick="CheckoutUI.hideCreditCardModal()">إلغاء</button>
+                        <button type="submit" class="confirm-btn">تأكيد الدفع</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Order Success Modal -->
+    <div class="modal-overlay" id="order-success-modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>✅ تم إنشاء الطلب بنجاح</h3>
+            </div>
+            <div class="modal-body">
+                <div class="success-content">
+                    <div class="success-icon">🎉</div>
+                    <p id="success-message">جارٍ إعادة التوجيه إلى صفحة تأكيد الطلب...</p>
+                    <div class="order-details" id="success-order-details">
+                        <!-- سيتم تعبئته بواسطة JavaScript -->
+                    </div>
+                    <div class="success-actions">
+                        <button class="view-order-btn" id="view-order-btn">عرض تفاصيل الطلب</button>
+                        <button class="continue-btn" onclick="window.location.href='Home.php'">متابعة التسوق</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wallet Confirmation Modal -->
+    <div class="modal-overlay" id="wallet-modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>تأكيد الدفع بالمحفظة</h3>
+                <button class="modal-close" onclick="CheckoutUI.hideWalletModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="wallet-confirmation">
+                    <div class="wallet-amount">
+                        <span class="label">المبلغ:</span>
+                        <span class="value" id="modal-amount">0.00 ج.م</span>
+                    </div>
+                    <div class="wallet-provider">
+                        <span class="label">المزود:</span>
+                        <span class="value" id="modal-provider">Vodafone Cash</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="modal-phone">رقم الهاتف المرتبط بالمحفظة:</label>
+                        <input type="tel" id="modal-phone" placeholder="01026103523">
+                        <div class="error-message" id="modal-phone-error"></div>
+                    </div>
+                    <div class="modal-actions">
+                        <button class="cancel-btn" onclick="CheckoutUI.hideWalletModal()">إلغاء</button>
+                        <button class="confirm-btn" id="modal-confirm-btn">تأكيد الدفع</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Files -->
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script src="../Assets/js/checkout.js"></script>
+</body>
+</html>

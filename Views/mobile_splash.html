@@ -1,0 +1,41 @@
+{*
+ * mobile_splash.html
+ * Smarty template for Mobile Splash Screen
+ * Part of the MVC architecture
+ *}
+
+<div id="mobile-splash-overlay">
+    <div class="mobile-splash-content">
+        <button class="splash-close" aria-label="إغلاق">×</button>
+        
+        <div class="splash-icon">🛍️</div>
+        
+        <h2 class="splash-title">{$splash.title|default:'مرحباً بك في متجرنا!'}</h2>
+        
+        <p class="splash-subtitle">
+            {$splash.subtitle|default:'تم تحسين الموقع خصيصاً لتجربة تسوق رائعة على هاتفك'}
+        </p>
+        
+        <ul class="splash-features">
+            {foreach $splash.features as $feature}
+                <li>{$feature}</li>
+            {/foreach}
+        </ul>
+        
+        <div class="splash-buttons">
+            <button class="splash-btn splash-btn-primary">
+                {$splash.btn_primary|default:'ابدأ التسوق الآن'}
+            </button>
+            <button class="splash-btn splash-btn-secondary">
+                {$splash.btn_secondary|default:'عرض نسخة سطح المكتب'}
+            </button>
+        </div>
+        
+        <div class="splash-checkbox">
+            <input type="checkbox" id="dont-show-again">
+            <label for="dont-show-again">
+                {$splash.checkbox_label|default:'لا تظهر هذه الرسالة مرة أخرى'}
+            </label>
+        </div>
+    </div>
+</div>

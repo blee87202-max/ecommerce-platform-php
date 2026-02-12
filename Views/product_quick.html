@@ -1,0 +1,57 @@
+<!-- استدعاء ملف CSS المنفصل -->
+<link rel="stylesheet" href="../Assets/css/product_quick.css">
+
+<div class="quick-view-container">
+    
+    <div class="quick-view-main">
+        <!-- الصورة على اليمين -->
+        <div class="qv-image-section">
+            <img src="{$product.image_url}" alt="{$product.name}" onerror="this.src='../Assets/images/default-product.png'">
+        </div>
+        
+        <!-- التفاصيل على اليسار -->
+        <div class="qv-details-section">
+            <div class="qv-brand">{$product.brand}</div>
+            <h1 class="qv-title">{$product.name}</h1>
+            
+            <div class="qv-rating">
+                <span class="rating-count">({$product.review_count|number_format} تقييم)</span>
+                <div class="stars">
+                    {for $i=1 to 5}
+                        <i class="{if $i <= $product.avg_rating}fas{else}far{/if} fa-star"></i>
+                    {/for}
+                </div>
+            </div>
+            
+            <div class="qv-price-box">
+                <span class="qv-current-price">{$product.price|number_format:2} جنيه</span>
+                {if $product.old_price}
+                    <span class="qv-old-price">{$product.old_price|number_format:2} جنيه</span>
+                {/if}
+            </div>
+            
+            <a href="product.php?id={$product.id}" class="qv-btn-details">
+                اطلع على تفاصيل المنتج
+            </a>
+        </div>
+    </div>
+    
+    <!-- المنتجات المشابهة في الأسفل -->
+    {if $related_products}
+    <div class="qv-similar-section">
+        <div class="qv-similar-title">اشترى العملاء أيضًا</div>
+        <div class="qv-similar-grid">
+            {foreach from=$related_products item=r}
+                <a href="javascript:void(0)" 
+                   onclick="if(window.HomeApp && window.HomeApp.openQuickView) { window.HomeApp.openQuickView({$r.id}); } else { window.location.href='product.php?id={$r.id}'; }" 
+                   class="qv-similar-item" 
+                   title="{$r.name|escape}">
+                    <img src="image.php?src={$r.image|urlencode}&w=150&h=150&q=80" 
+                         alt="{$r.name|escape}"
+                         onerror="this.src='../Assets/images/default-product.png'">
+                </a>
+            {/foreach}
+        </div>
+    </div>
+    {/if}
+</div>

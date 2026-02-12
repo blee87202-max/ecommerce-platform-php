@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="description" content="قارن بين المنتجات بسهولة واختر الأفضل لك">
+    <meta name="theme-color" content="#0066FF">
+    <title>⚖️ مقارنة المنتجات</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&display=swap">
+    <link rel="stylesheet" href="../Assets/css/compare.css">
+    <!-- Cache Control -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+</head>
+<body>
+    <!-- Container -->
+    <div class="compare-wrapper">
+        <!-- Header -->
+        <header class="compare-header">
+            <button class="back-btn" onclick="history.back()" aria-label="العودة">
+                ↩️ العودة
+            </button>
+            <h1>⚖️ مقارنة المنتجات</h1>
+            <div class="compare-info" id="compare-info">
+                <span id="compare-count">0</span> منتج في المقارنة
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="compare-main">
+            <!-- Loading State -->
+            <div class="loading-section" id="loading-section">
+                <div class="spinner-container">
+                    <div class="spinner"></div>
+                    <p>جاري تحميل بيانات المقارنة...</p>
+                </div>
+            </div>
+
+            <!-- Error State -->
+            <div class="error-section" id="error-section" style="display: none;">
+                <div class="error-content">
+                    <span class="error-icon">⚠️</span>
+                    <h3>حدث خطأ</h3>
+                    <p id="error-message"></p>
+                    <button class="retry-btn" onclick="CompareUI.retryLoading()">🔄 إعادة المحاولة</button>
+                </div>
+            </div>
+
+            <!-- Empty State -->
+            <div class="empty-section" id="empty-section" style="display: none;">
+                <div class="empty-content">
+                    <span class="empty-icon">⚖️</span>
+                    <h3>المقارنة فارغة</h3>
+                    <p>لم تقم بإضافة أي منتجات للمقارنة بعد.</p>
+                    <div class="empty-actions">
+                        <button class="shop-btn" onclick="CompareUI.goToHome()">🛍️ ابدأ التسوق</button>
+                        <button class="clear-all-btn" onclick="CompareUI.retryLoading()">🔄 تحديث</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Compare Content -->
+            <div class="compare-content" id="compare-content" style="display: none;">
+                <div class="compare-header-actions">
+                    <div class="compare-stats">
+                        <span>مقارنة <strong id="current-count">0</strong> من أصل <strong id="max-products">2</strong> منتجات</span>
+                    </div>
+                    <div class="compare-actions">
+                        <button class="clear-all-btn" id="clear-all-btn">🗑️ مسح الكل</button>
+                        <button class="add-more-btn" onclick="CompareUI.handleAddMoreClick()">
+                            ➕ إضافة منتجات
+                        </button>
+                    </div>
+                </div>
+
+                <div class="compare-table-wrapper">
+                    <div id="compare-table">
+                        <!-- سيتم تعبئته بواسطة JavaScript -->
+                    </div>
+                </div>
+
+                <div class="add-more-section" id="add-more-section" style="display: none;">
+                    <!-- سيتم تعبئته بواسطة JavaScript -->
+                </div>
+
+                <div class="compare-footer-actions">
+                    <button type="button" class="continue-shopping-btn" onclick="CompareUI.goToHome()">
+                        🛍️ متابعة التسوق
+                    </button>
+                    <button type="button" class="view-cart-btn" onclick="CompareUI.goToCart()">
+                        🛒 عرض السلة
+                    </button>
+                    <button type="button" class="view-wishlist-btn" onclick="CompareUI.goToWishlist()">
+                        ❤️ قائمة الرغبات
+                    </button>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="compare-footer">
+            <p>⚖️ قارن بين المنتجات بسهولة واتخذ القرار الأنسب</p>
+            <p class="help-text">يمكنك إضافة حتى 2 منتجات للمقارنة في نفس الوقت على الموبايل</p>
+        </footer>
+    </div>
+
+    <!-- Toast Container for Notifications -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <!-- JavaScript Files -->
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script src="../Assets/js/compare.js"></script>
+</body>
+</html>

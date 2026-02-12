@@ -1,0 +1,200 @@
+/* تصميم نافذة العرض السريع الاحترافية */
+.quick-view-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    max-height: 85vh;
+    overflow: hidden;
+    background: #fff;
+    position: relative;
+    font-family: 'Cairo', sans-serif;
+}
+
+body.dark-mode .quick-view-container {
+    background: #1e293b;
+}
+
+.quick-view-main {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 40px;
+    padding: 30px;
+    flex: 1;
+    overflow: hidden;
+}
+
+@media (max-width: 768px) {
+    .quick-view-main {
+        grid-template-columns: 1fr;
+        overflow-y: auto;
+        gap: 20px;
+        padding: 20px;
+    }
+    .quick-view-container {
+        max-height: 95vh;
+    }
+}
+
+/* القسم الأيمن: الصورة */
+.qv-image-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fcfcfc;
+    border-radius: 20px;
+    padding: 20px;
+    order: 2; /* الصورة على اليمين في RTL */
+}
+
+body.dark-mode .qv-image-section {
+    background: #0f172a;
+}
+
+.qv-image-section img {
+    max-width: 100%;
+    max-height: 400px;
+    object-fit: contain;
+    filter: drop-shadow(0 10px 20px rgba(0,0,0,0.1));
+}
+
+/* القسم الأيسر: التفاصيل */
+.qv-details-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    order: 1;
+    text-align: right;
+}
+
+.qv-brand {
+    color: #888;
+    font-size: 16px;
+    margin-bottom: 8px;
+}
+
+.qv-title {
+    font-size: 28px;
+    font-weight: 800;
+    color: inherit;
+    margin-bottom: 15px;
+    line-height: 1.2;
+}
+
+.qv-rating {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.stars {
+    color: #ff9c00;
+    font-size: 14px;
+}
+
+.rating-count {
+    color: #888;
+    font-size: 14px;
+}
+
+.qv-price-box {
+    margin-bottom: 25px;
+}
+
+.qv-current-price {
+    font-size: 32px;
+    font-weight: 900;
+    color: #C5A059; /* لون ذهبي متناسق مع المتجر */
+}
+
+.qv-old-price {
+    font-size: 18px;
+    color: #bbb;
+    text-decoration: line-through;
+    margin-right: 15px;
+}
+
+.qv-btn-details {
+    background: #ffdc00;
+    color: #000;
+    padding: 15px 30px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: fit-content;
+    transition: all 0.3s ease;
+    border: none;
+    font-size: 16px;
+}
+
+.qv-btn-details:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(255, 220, 0, 0.3);
+}
+
+/* قسم المنتجات المشابهة */
+.qv-similar-section {
+    padding: 20px 30px;
+    background: #f8f8f8;
+    border-top: 1px solid #eee;
+}
+
+body.dark-mode .qv-similar-section {
+    background: #161e2e;
+    border-color: #334155;
+}
+
+.qv-similar-title {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 15px;
+    color: inherit;
+}
+
+.qv-similar-grid {
+    display: flex;
+    gap: 15px;
+    overflow-x: auto;
+    padding-bottom: 10px;
+    scrollbar-width: thin;
+}
+
+.qv-similar-item {
+    flex: 0 0 100px;
+    text-align: center;
+}
+
+.qv-similar-item img {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    background: #fff;
+    border-radius: 10px;
+    padding: 5px;
+    border: 1px solid #eee;
+    transition: all 0.3s ease;
+}
+
+.qv-similar-item:hover img {
+    border-color: #C5A059;
+    transform: scale(1.05);
+}
+
+.modal-close-qv {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #888;
+    z-index: 10;
+}
+
+.modal-close-qv:hover {
+    color: #333;
+}

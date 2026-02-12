@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📦 طلباتي - المتجر البسيط</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap">
+    <link rel="stylesheet" href="../Assets/css/my_orders.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Container -->
+    <div class="my-orders-container">
+        <!-- Header -->
+        <header class="orders-header">
+            <div class="header-content">
+                <h1><i class="fas fa-box"></i> طلباتي</h1>
+                <div class="header-actions">
+                    <a href="Home.php" class="action-link">
+                        <i class="fas fa-store"></i> العودة للمتجر
+                    </a>
+                    <a href="profile.php" class="action-link">
+                        <i class="fas fa-user"></i> حسابي
+                    </a>
+                </div>
+            </div>
+            <div class="user-welcome" id="user-welcome">
+                <!-- سيتم تعبئته بواسطة JavaScript -->
+            </div>
+        </header>
+
+        <!-- Loading State -->
+        <div class="loading-section" id="loading-section">
+            <div class="spinner-container">
+                <div class="spinner"></div>
+                <p>جاري تحميل طلباتك...</p>
+            </div>
+        </div>
+
+        <!-- Error State -->
+        <div class="error-section" id="error-section" style="display: none;">
+            <div class="error-content">
+                <span class="error-icon">⚠️</span>
+                <h3>حدث خطأ</h3>
+                <p id="error-message"></p>
+                <button class="retry-btn" onclick="MyOrders.retryLoading()">
+                    <i class="fas fa-redo"></i> إعادة المحاولة
+                </button>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <main class="orders-content" id="orders-content" style="display: none;">
+            <!-- Statistics -->
+            <section class="orders-stats" id="orders-stats">
+                <!-- سيتم تعبئته بواسطة JavaScript -->
+            </section>
+
+            <!-- Filters -->
+            <section class="orders-filters">
+                <div class="filters-header">
+                    <h2><i class="fas fa-filter"></i> تصفية الطلبات</h2>
+                    <span class="results-count" id="results-count"></span>
+                </div>
+                <div class="filters-grid">
+                    <div class="filter-group">
+                        <label for="status-filter"><i class="fas fa-tag"></i> الحالة:</label>
+                        <select id="status-filter" class="filter-select">
+                            <option value="all">جميع الحالات</option>
+                            <option value="pending">قيد الانتظار</option>
+                            <option value="processing">قيد المعالجة</option>
+                            <option value="shipped">تم الشحن</option>
+                            <option value="delivered">تم التسليم</option>
+                            <option value="completed">مكتمل</option>
+                            <option value="cancelled">ملغي</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="sort-filter"><i class="fas fa-sort"></i> الترتيب:</label>
+                        <select id="sort-filter" class="filter-select">
+                            <option value="newest">الأحدث أولاً</option>
+                            <option value="oldest">الأقدم أولاً</option>
+                            <option value="highest">الأعلى سعراً</option>
+                            <option value="lowest">الأقل سعراً</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="limit-filter"><i class="fas fa-list"></i> العدد:</label>
+                        <select id="limit-filter" class="filter-select">
+                            <option value="10">10 طلبات</option>
+                            <option value="25">25 طلباً</option>
+                            <option value="50">50 طلباً</option>
+                            <option value="100">100 طلب</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="filter-actions">
+                    <button class="apply-filters-btn" onclick="MyOrders.applyFilters()">
+                        <i class="fas fa-check"></i> تطبيق الفلاتر
+                    </button>
+                    <button class="reset-filters-btn" onclick="MyOrders.resetFilters()">
+                        <i class="fas fa-times"></i> مسح الفلاتر
+                    </button>
+                </div>
+            </section>
+
+            <!-- Orders List -->
+            <section class="orders-list-section">
+                <h2><i class="fas fa-clipboard-list"></i> قائمة الطلبات</h2>
+                <div class="orders-list" id="orders-list">
+                    <!-- سيتم تعبئته بواسطة JavaScript -->
+                </div>
+                
+                <!-- Empty State -->
+                <div class="empty-state" id="empty-state" style="display: none;">
+                    <div class="empty-content">
+                        <span class="empty-icon">📦</span>
+                        <h3>لا توجد طلبات</h3>
+                        <p>لم تقم بأي طلب بعد. ابدأ بالتسوق الآن!</p>
+                        <a href="Home.php" class="shop-now-btn">
+                            <i class="fas fa-shopping-cart"></i> ابدأ التسوق
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Pagination -->
+                <div class="pagination" id="pagination" style="display: none;">
+                    <!-- سيتم تعبئته بواسطة JavaScript -->
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="orders-footer">
+            <div class="footer-content">
+                <p><i class="fas fa-question-circle"></i> تحتاج مساعدة؟ <a href="contact.php">تواصل مع الدعم</a></p>
+                <p class="copyright">© <span id="current-year"></span> جميع الحقوق محفوظة</p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Order Details Modal -->
+    <div class="modal-overlay" id="order-details-modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modal-title">تفاصيل الطلب</h3>
+                <button class="modal-close" onclick="MyOrders.closeOrderModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body" id="modal-body">
+                <!-- سيتم تعبئته بواسطة JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Cancel Order Modal -->
+    <div class="modal-overlay" id="cancel-order-modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>إلغاء الطلب</h3>
+                <button class="modal-close" onclick="MyOrders.closeCancelModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="cancel-confirmation">
+                    <p>هل أنت متأكد من إلغاء هذا الطلب؟</p>
+                    <div class="form-group">
+                        <label for="cancel-reason">سبب الإلغاء (اختياري):</label>
+                        <textarea id="cancel-reason" rows="3" placeholder="اختياري..."></textarea>
+                    </div>
+                    <div class="modal-actions">
+                        <button class="cancel-btn" onclick="MyOrders.closeCancelModal()">
+                            <i class="fas fa-times"></i> إلغاء
+                        </button>
+                        <button class="confirm-btn" id="confirm-cancel-btn">
+                            <i class="fas fa-check"></i> تأكيد الإلغاء
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="global-loading" style="display: none;">
+        <div class="loading-content">
+            <div class="spinner"></div>
+            <p id="loading-message">جاري المعالجة...</p>
+        </div>
+    </div>
+
+    <!-- JavaScript Files -->
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script src="../Assets/js/my_orders.js"></script>
+</body>
+</html>

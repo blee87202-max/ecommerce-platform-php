@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account - Join Our Community</title>
+    <link rel="stylesheet" href="../Assets/css/register.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Background Animation -->
+    <div class="background-animation">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+        <div class="shape shape-4"></div>
+    </div>
+    
+    <!-- Floating Particles -->
+    <div class="particles-container"></div>
+    
+    <!-- Error Message -->
+    <div class="notification" id="notification">
+        <div class="notification-content" id="notification-message"></div>
+        <button class="notification-close" id="notification-close">×</button>
+    </div>
+    
+    <!-- Main Container -->
+    <div class="register-wrapper">
+        <div class="register-container">
+            <!-- Decorative Elements -->
+            <div class="decorative-corner top-left"></div>
+            <div class="decorative-corner top-right"></div>
+            <div class="decorative-corner bottom-left"></div>
+            <div class="decorative-corner bottom-right"></div>
+            
+            <!-- Floating Icons -->
+            <div class="floating-icon" style="top: 10%; left: 5%; animation-delay: 0s;">
+                <i class="fas fa-user-shield"></i>
+            </div>
+            <div class="floating-icon" style="top: 20%; right: 7%; animation-delay: 0.3s;">
+                <i class="fas fa-lock"></i>
+            </div>
+            <div class="floating-icon" style="bottom: 30%; left: 8%; animation-delay: 0.6s;">
+                <i class="fas fa-envelope"></i>
+            </div>
+            <div class="floating-icon" style="bottom: 15%; right: 5%; animation-delay: 0.9s;">
+                <i class="fas fa-shield-alt"></i>
+            </div>
+            
+            <!-- Header with Animation -->
+            <header class="register-header">
+                <div class="header-icon pulse">
+                    <i class="fas fa-user-plus"></i>
+                </div>
+                <h1 class="glitch" data-text="Create Account">Create Account</h1>
+                <p class="subtitle">Join our community and start your journey with us</p>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="form-progress"></div>
+                </div>
+            </header>
+            
+            <!-- Registration Form -->
+            <form id="register-form" class="register-form" novalidate>
+                <!-- Name Field -->
+                <div class="form-group floating-label">
+                    <div class="input-wrapper">
+                        <input type="text" 
+                               id="name" 
+                               name="name" 
+                               class="form-control"
+                               placeholder=" "
+                               autocomplete="name"
+                               minlength="2"
+                               maxlength="100"
+                               required>
+                        <label for="name">
+                            <i class="fas fa-user"></i>
+                            Full Name
+                        </label>
+                        <div class="input-underline"></div>
+                    </div>
+                    <div class="error-message" id="name-error"></div>
+                    <div class="input-hint">
+                        <i class="fas fa-info-circle"></i>
+                        Can include letters, numbers, spaces, apostrophes, and hyphens
+                    </div>
+                    <div class="suggestions-container" id="name-suggestions"></div>
+                </div>
+                
+                <!-- Email Field -->
+                <div class="form-group floating-label">
+                    <div class="input-wrapper">
+                        <input type="email" 
+                               id="email" 
+                               name="email" 
+                               class="form-control"
+                               placeholder=" "
+                               autocomplete="email"
+                               required>
+                        <label for="email">
+                            <i class="fas fa-envelope"></i>
+                            Email Address
+                        </label>
+                        <div class="input-underline"></div>
+                    </div>
+                    <div class="error-message" id="email-error"></div>
+                    <div class="suggestions-container" id="email-suggestions"></div>
+                </div>
+                
+                <!-- Phone Field -->
+                <div class="form-group floating-label">
+                    <div class="input-wrapper">
+                        <input type="tel" 
+                               id="phone" 
+                               name="phone" 
+                               class="form-control"
+                               placeholder=" "
+                               autocomplete="tel">
+                        <label for="phone">
+                            <i class="fas fa-phone"></i>
+                            Phone Number (Optional)
+                        </label>
+                        <div class="input-underline"></div>
+                    </div>
+                    <div class="error-message" id="phone-error"></div>
+                </div>
+                
+                <!-- Password Field -->
+                <div class="form-group floating-label">
+                    <div class="input-wrapper">
+                        <input type="password" 
+                               id="password" 
+                               name="password" 
+                               class="form-control"
+                               placeholder=" "
+                               autocomplete="new-password"
+                               minlength="6"
+                               required>
+                        <label for="password">
+                            <i class="fas fa-key"></i>
+                            Password
+                        </label>
+                        <div class="input-underline"></div>
+                        <button type="button" class="password-toggle" id="toggle-password">
+                            <i class="fas fa-eye"></i>
+                            <i class="fas fa-eye-slash"></i>
+                        </button>
+                    </div>
+                    <div class="error-message" id="password-error"></div>
+                    
+                    <!-- Dynamic Password Strength -->
+                    <div class="password-strength-container">
+                        <div class="strength-labels">
+                            <span>Strength:</span>
+                            <span class="strength-text" id="strength-text">None</span>
+                        </div>
+                        <div class="strength-bar">
+                            <div class="strength-fill" id="password-strength"></div>
+                            <div class="strength-dots">
+                                <span class="dot" data-level="1"></span>
+                                <span class="dot" data-level="2"></span>
+                                <span class="dot" data-level="3"></span>
+                                <span class="dot" data-level="4"></span>
+                                <span class="dot" data-level="5"></span>
+                            </div>
+                        </div>
+                        <div class="strength-requirements">
+                            <span class="requirement" data-check="length"><i class="fas fa-check"></i> At least 6 characters</span>
+                            <span class="requirement" data-check="letter"><i class="fas fa-check"></i> Contains letter</span>
+                            <span class="requirement" data-check="number"><i class="fas fa-check"></i> Contains number</span>
+                            <span class="requirement" data-check="special"><i class="fas fa-check"></i> Special character</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Confirm Password Field -->
+                <div class="form-group floating-label">
+                    <div class="input-wrapper">
+                        <input type="password" 
+                               id="confirm_password" 
+                               name="confirm_password" 
+                               class="form-control"
+                               placeholder=" "
+                               autocomplete="new-password"
+                               required>
+                        <label for="confirm_password">
+                            <i class="fas fa-key"></i>
+                            Confirm Password
+                        </label>
+                        <div class="input-underline"></div>
+                        <button type="button" class="password-toggle" id="toggle-confirm-password">
+                            <i class="fas fa-eye"></i>
+                            <i class="fas fa-eye-slash"></i>
+                        </button>
+                    </div>
+                    <div class="error-message" id="confirm_password-error"></div>
+                    <div class="password-match" id="password-match">
+                        <i class="fas fa-check"></i>
+                        <span>Passwords match</span>
+                    </div>
+                </div>
+                
+                <!-- Terms Checkbox -->
+                <div class="terms-group">
+                    <div class="checkbox-wrapper">
+                        <input type="checkbox" id="terms" name="terms" required>
+                        <label for="terms" class="checkbox-label">
+                            <div class="checkbox-icon">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <span class="checkbox-text">
+                                I agree to the 
+                                <a href="terms.html" class="terms-link">Terms of Service</a> 
+                                and 
+                                <a href="privacy.html" class="terms-link">Privacy Policy</a>
+                            </span>
+                        </label>
+                    </div>
+                    <div class="error-message" id="terms-error"></div>
+                </div>
+                
+                <!-- Submit Button -->
+                <div class="form-group">
+                    <button type="submit" class="submit-btn" id="register-btn">
+                        <span class="btn-content">
+                            <span class="btn-icon">
+                                <i class="fas fa-rocket"></i>
+                            </span>
+                            <span class="btn-text">Create Account</span>
+                        </span>
+                        <span class="btn-loader">
+                            <span class="loader-dot"></span>
+                            <span class="loader-dot"></span>
+                            <span class="loader-dot"></span>
+                        </span>
+                        <span class="btn-success">
+                            <i class="fas fa-check"></i>
+                            Success!
+                        </span>
+                        <span class="btn-wave"></span>
+                    </button>
+                    
+                    <div class="form-footer">
+                        <p class="login-link">
+                            Already have an account?
+                            <a href="login.php" class="login-link-text">
+                                <i class="fas fa-sign-in-alt"></i>
+                                Sign In Here
+                            </a>
+                        </p>
+                    </div>
+                </div>
+            </form>
+        </div>
+        
+        <!-- Form Steps Indicator -->
+        <div class="form-steps">
+            <div class="step active" data-step="1">
+                <div class="step-number">1</div>
+                <div class="step-label">Name</div>
+            </div>
+            <div class="step" data-step="2">
+                <div class="step-number">2</div>
+                <div class="step-label">Email</div>
+            </div>
+            <div class="step" data-step="3">
+                <div class="step-number">3</div>
+                <div class="step-label">Password</div>
+            </div>
+            <div class="step" data-step="4">
+                <div class="step-number">4</div>
+                <div class="step-label">Complete</div>
+            </div>
+            <div class="step-line"></div>
+        </div>
+    </div>
+    
+    <script src="../Assets/js/register.js"></script>
+</body>
+</html>

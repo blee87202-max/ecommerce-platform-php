@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>✅ تأكيد الطلب - المتجر البسيط</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap">
+    <link rel="stylesheet" href="../Assets/css/order_success.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Success Animation -->
+    <div class="success-animation" id="success-animation">
+        <div class="animation-content">
+            <div class="checkmark-circle">
+                <div class="checkmark"></div>
+            </div>
+            <h1>🎉 تم تأكيد طلبك!</h1>
+            <p>شكراً لثقتك بنا. سنقوم بتجهيز طلبك بأسرع وقت ممكن.</p>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="order-success-container" id="main-container" style="display: none;">
+        <!-- Header -->
+        <header class="order-header">
+            <div class="header-content">
+                <h1><i class="fas fa-check-circle"></i> طلبك تم تأكيده بنجاح</h1>
+                <div class="order-meta">
+                    <div class="meta-item">
+                        <i class="fas fa-hashtag"></i>
+                        <span>رقم الطلب: <strong id="order-number">{$orderData.order.order_number}</strong></span>
+                    </div>
+                    <div class="meta-item">
+                        <i class="fas fa-calendar"></i>
+                        <span>التاريخ: <strong id="order-date">{$orderData.order.created_at}</strong></span>
+                    </div>
+                </div>
+            </div>
+            <div class="status-badge" id="status-badge" style="background-color: {$orderData.status_info.color}">
+                <span class="status-icon">{$orderData.status_info.icon}</span>
+                <span class="status-text">{$orderData.status_info.name}</span>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="order-content">
+            <!-- Order Summary -->
+            <section class="order-summary-section">
+                <h2><i class="fas fa-clipboard-list"></i> ملخص الطلب</h2>
+                
+                <!-- Order Items -->
+                <div class="order-items">
+                    <div class="items-header">
+                        <h3>المنتجات المطلوبة</h3>
+                        <span class="items-count" id="items-count">{$orderData.items|@count} منتج</span>
+                    </div>
+                    
+                    <div class="items-list" id="items-list">
+                        {foreach $orderData.items as $item}
+                        <div class="order-item">
+                            <div class="item-image">
+                                <img src="admin/assets/images/{$item.image}" 
+                                     alt="{$item.product_name}"
+                                     onerror="this.src='admin/assets/images/default.jpg'">
+                            </div>
+                            <div class="item-details">
+                                <h4 class="item-name">{$item.product_name}</h4>
+                                <div class="item-price">{$item.formatted_price} ج.م</div>
+                            </div>
+                            <div class="item-quantity">
+                                <span class="quantity-label">الكمية:</span>
+                                <span class="quantity-value">{$item.quantity}</span>
+                            </div>
+                            <div class="item-total">
+                                <span class="total-label">المجموع:</span>
+                                <span class="total-value">{$item.formatted_subtotal} ج.م</span>
+                            </div>
+                        </div>
+                        {/foreach}
+                    </div>
+                </div>
+
+                <!-- Order Totals -->
+                <div class="order-totals">
+                    <div class="total-row">
+                        <span>المجموع الجزئي:</span>
+                        <span id="subtotal">{$orderData.totals.formatted_subtotal} ج.م</span>
+                    </div>
+                    <div class="total-row">
+                        <span>الشحن:</span>
+                        <span id="shipping">{$orderData.totals.formatted_shipping} ج.م</span>
+                    </div>
+                    <div class="total-row">
+                        <span>الضريبة:</span>
+                        <span id="tax">{$orderData.totals.formatted_tax} ج.م</span>
+                    </div>
+                    <div class="total-row grand-total">
+                        <span>الإجمالي النهائي:</span>
+                        <span id="grand-total">{$orderData.totals.formatted_total} ج.م</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Customer & Payment Info -->
+            <div class="info-grid">
+                <!-- Customer Information -->
+                <section class="customer-info-section">
+                    <h2><i class="fas fa-user"></i> معلومات العميل</h2>
+                    <div class="info-card">
+                        <div class="info-row">
+                            <span class="info-label">الاسم:</span>
+                            <span class="info-value" id="customer-name">{$orderData.order.customer_name}</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">الهاتف:</span>
+                            <span class="info-value" id="customer-phone">{$orderData.order.phone}</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">العنوان:</span>
+                            <span class="info-value" id="customer-address">{$orderData.order.address}</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">البريد الإلكتروني:</span>
+                            <span class="info-value" id="customer-email">{$orderData.order.user_email}</span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Payment & Shipping Info -->
+                <section class="payment-info-section">
+                    <h2><i class="fas fa-credit-card"></i> معلومات الدفع والشحن</h2>
+                    <div class="info-card">
+                        <div class="info-row">
+                            <span class="info-label">طريقة الدفع:</span>
+                            <span class="info-value" id="payment-method">{$orderData.order.payment_method}</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">حالة الدفع:</span>
+                            <span class="info-value" id="payment-status">{$orderData.order.payment_status}</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">شركة الشحن:</span>
+                            <span class="info-value" id="shipping-company">{$orderData.shipping_info.carrier}</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">رقم التتبع:</span>
+                            <span class="info-value" id="tracking-number">{$orderData.shipping_info.tracking_number}</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">التسليم المتوقع:</span>
+                            <span class="info-value" id="estimated-delivery">{$orderData.shipping_info.estimated_delivery}</span>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Order Status Timeline -->
+            <section class="timeline-section">
+                <h2><i class="fas fa-history"></i> تتبع حالة الطلب</h2>
+                <div class="timeline">
+                    <div class="timeline-step {if $orderData.order.status === 'pending'}active{else}completed{/if}">
+                        <div class="step-icon">⏳</div>
+                        <div class="step-content">
+                            <h4>قيد الانتظار</h4>
+                            <p>تم استلام طلبك بنجاح</p>
+                        </div>
+                    </div>
+                    <div class="timeline-step {if in_array($orderData.order.status, ['processing', 'shipped', 'delivered', 'completed'])}completed{elseif $orderData.order.status === 'pending'}pending{/if}">
+                        <div class="step-icon">⚙️</div>
+                        <div class="step-content">
+                            <h4>قيد المعالجة</h4>
+                            <p>جارٍ تجهيز طلبك</p>
+                        </div>
+                    </div>
+                    <div class="timeline-step {if in_array($orderData.order.status, ['shipped', 'delivered', 'completed'])}completed{/if}">
+                        <div class="step-icon">🚚</div>
+                        <div class="step-content">
+                            <h4>تم الشحن</h4>
+                            <p>طلبك في الطريق إليك</p>
+                        </div>
+                    </div>
+                    <div class="timeline-step {if in_array($orderData.order.status, ['delivered', 'completed'])}completed{/if}">
+                        <div class="step-icon">📦</div>
+                        <div class="step-content">
+                            <h4>تم التسليم</h4>
+                            <p>وصل طلبك إلى وجهته</p>
+                        </div>
+                    </div>
+                    <div class="timeline-step {if $orderData.order.status === 'completed'}completed{/if}">
+                        <div class="step-icon">✅</div>
+                        <div class="step-content">
+                            <h4>مكتمل</h4>
+                            <p>اكتمل الطلب بنجاح</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Help Section -->
+            <section class="help-section">
+                <div class="help-card">
+                    <div class="help-icon">❓</div>
+                    <div class="help-content">
+                        <h3>هل تحتاج مساعدة؟</h3>
+                        <p>إذا كان لديك أي استفسار بخصوص طلبك، فلا تتردد في التواصل معنا</p>
+                        <div class="help-actions">
+                            <button class="help-btn" onclick="window.location.href='contact.php'">
+                                <i class="fas fa-headset"></i> تواصل مع الدعم
+                            </button>
+                            <button class="help-btn secondary" onclick="window.location.href='faq.php'">
+                                <i class="fas fa-question-circle"></i> الأسئلة الشائعة
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Actions Footer -->
+        <footer class="order-actions">
+            <div class="actions-grid">
+                <button class="action-btn primary" onclick="window.location.href='Home.php'">
+                    <i class="fas fa-store"></i> العودة للمتجر
+                </button>
+                <button class="action-btn" onclick="window.location.href='my_orders.php'">
+                    <i class="fas fa-list-alt"></i> قائمة الطلبات
+                </button>
+                <button class="action-btn" onclick="window.print()">
+                    <i class="fas fa-print"></i> طباعة الفاتورة
+                </button>
+                <button class="action-btn" onclick="downloadInvoice()">
+                    <i class="fas fa-download"></i> تحميل الفاتورة
+                </button>
+            </div>
+            
+            <div class="order-note">
+                <p><i class="fas fa-info-circle"></i> سنقوم بإرسال تفاصيل التتبع على بريدك الإلكتروني فور شحن الطلب</p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loading-overlay" style="display: none;">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <p>جاري تحميل بيانات الطلب...</p>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="../Assets/js/order_success.js"></script>
+</body>
+</html>
